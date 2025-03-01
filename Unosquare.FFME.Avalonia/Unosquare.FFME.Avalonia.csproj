@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- NuGet Package Properties -->
+    <PackageId>FFME.Avalonia</PackageId>
+    <Version>7.0.361-beta.1.1</Version>
+    <Authors>Mario Di Vece, Calin Cerchez, and Contributors to the FFME project</Authors>
+    <Description>FFME is an advanced Avalonia MediaElement alternative. While the standard MediaElement uses DirectX (DirectShow) for media playback, FFME uses FFmpeg to read and decode audio and video.</Description>
+    <Copyright>Unosquare SA de CV, Mario Di Vece, and Contributors, (C) 2015-2024</Copyright>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/4gsim/ffmediaelement</PackageProjectUrl>
+    <PackageTags>ffme hls avalonia ffmpeg mediaelement h264 h265 hevc audio video decoding playback frame</PackageTags>
+    <RepositoryUrl>https://github.com/4gsim/ffmediaelement</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.1" />
+    <PackageReference Include="FFmpeg.AutoGen" Version="7.0.0" />
+  </ItemGroup>
+
+  <Import Project="..\Unosquare.FFME.MediaElement\Unosquare.FFME.MediaElement.projitems" Label="Shared" />
+
+  <Import Project="..\Unosquare.FFME\Unosquare.FFME.projitems" Label="Shared" />
+</Project>

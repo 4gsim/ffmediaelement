@@ -10,17 +10,19 @@ public class VideoView : CompositionCustomVisualHandler
 {
     public WriteableBitmap? Source { get; set; }
 
-    public bool IsRunning { get; set; }
+    public Size ImageSize { get; set; }
 
-    private Size _imageSize;
+    public bool IsDirty { get; set; }
 
     private Size _containerSize;
+
+    private bool _isAnimating;
 
     public override void OnRender(ImmediateDrawingContext drawingContext)
     {
         if (Source != null)
         {
-            var drawSize = Stretch.Uniform.CalculateSize(_containerSize, _imageSize);
+            var drawSize = Stretch.Uniform.CalculateSize(_containerSize, ImageSize);
             var y = (GetRenderBounds().Height - drawSize.Height) / 2;
             drawingContext.DrawBitmap(Source, new Rect(0, y, drawSize.Width, drawSize.Height));
         }
@@ -28,23 +30,24 @@ public class VideoView : CompositionCustomVisualHandler
 
     public override void OnMessage(object message)
     {
-        if (message is StartCommand startCommand)
-        {
-            _imageSize = startCommand.Size;
-            RegisterForNextAnimationFrameUpdate();
-        }
         if (message is ResizeCommand resizeCommand)
         {
             _containerSize = resizeCommand.Size;
+            if (!_isAnimating)
+            {
+                RegisterForNextAnimationFrameUpdate();
+                _isAnimating = true;
+            }
         }
     }
 
     public override void OnAnimationFrameUpdate()
     {
-        if (IsRunning)
+        if (IsDirty)
         {
             Invalidate();
-            RegisterForNextAnimationFrameUpdate();
+            IsDirty = false;
         }
+        RegisterForNextAnimationFrameUpdate();
     }
 }

@@ -22,12 +22,18 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <None Update="sample.mp4">
+	  <None Update="sample1.mp4">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="sample2.avi">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="sample3.mov">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>    
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FFME.Avalonia\FFME.Avalonia.csproj" />
+    <ProjectReference Include="..\Unosquare.FFME.Avalonia\Unosquare.FFME.Avalonia.csproj" />
   </ItemGroup>
 </Project>

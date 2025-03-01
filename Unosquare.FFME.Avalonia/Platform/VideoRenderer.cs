@@ -20,12 +20,12 @@ internal class VideoRenderer(MediaEngine mediaCore) : IMediaRenderer
 
     public void OnClose()
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnPause()
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnPlay()
@@ -63,30 +63,44 @@ internal class VideoRenderer(MediaEngine mediaCore) : IMediaRenderer
         }
 
         targetBitmap = new WriteableBitmap(new PixelSize(block.PixelWidth, block.PixelHeight),
-                                                            new Vector(96.0, 96.0),
-                                                            PixelFormat.Bgra8888,
-                                                            AlphaFormat.Unpremul);
+                                            new Vector(96.0, 96.0),
+                                            PixelFormat.Bgra8888,
+                                            AlphaFormat.Unpremul);
+        _currentStride = block.PictureBufferStride;
         MediaElement.VideoView.Source = targetBitmap;
+
+        MediaElement.VideoView.ImageSize = new Size(block.PixelWidth, block.PixelHeight);
 
         return targetBitmap;
     }
 
-    private unsafe static void WriteVideoFrameBuffer(VideoBlock block, WriteableBitmap targetBitmap)
+    private unsafe void WriteVideoFrameBuffer(VideoBlock block, WriteableBitmap targetBitmap)
     {
         var minStride = (PixelFormat.Bgra8888.BitsPerPixel * block.PixelWidth + 7) / 8;
         if (minStride > block.PictureBufferStride)
         {
             return;
         }
-     
-        using (var locked = targetBitmap.Lock())
+
+        if  (!block.TryAcquireReaderLock(out var readLock))
         {
-            for (var y = 0; y < block.PixelHeight; y++)
+            readLock?.Dispose();
+            return;
+        }
+
+        using (readLock)
+        {
+            using (var locked = targetBitmap.Lock())
             {
-                Unsafe.CopyBlock((locked.Address + locked.RowBytes * y).ToPointer(),
-                    (block.Buffer + y * block.PictureBufferStride).ToPointer(), (uint)minStride);
+                for (var y = 0; y < block.PixelHeight; y++)
+                {
+                    Unsafe.CopyBlock((locked.Address + locked.RowBytes * y).ToPointer(),
+                        (block.Buffer + y * block.PictureBufferStride).ToPointer(), (uint)minStride);
+                }
             }
         }
+
+        MediaElement.VideoView.IsDirty = true;
     }
 
     public void Render(MediaBlock mediaBlock, TimeSpan clockPosition)
@@ -99,18 +113,6 @@ internal class VideoRenderer(MediaEngine mediaCore) : IMediaRenderer
         var block = (VideoBlock)mediaBlock;
 
         var targetBitmap = PrepareVideoFrameBuffer(block);
-
-        if (MediaCore.State.IsPlaying != MediaElement.VideoView.IsRunning)
-        {
-            MediaElement.VideoView.IsRunning = MediaCore.State.IsPlaying;
-            if (MediaCore.State.IsPlaying)
-            {
-                MediaElement.GuiContext.InvokeAsync(() => 
-                {
-                    MediaElement.Start(new Size(block.PixelWidth, block.PixelHeight));
-                });
-            }
-        }
 
         WriteVideoFrameBuffer(block, targetBitmap);
     }

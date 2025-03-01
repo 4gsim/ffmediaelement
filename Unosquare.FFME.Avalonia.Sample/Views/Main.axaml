@@ -1,0 +1,18 @@
+<Window
+    x:Class="Unosquare.FFME.Avalonia.Sample.Views.Main"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ffme="using:Unosquare.FFME"
+    xmlns:vm="using:Unosquare.FFME.Avalonia.Sample.ViewModels"
+    Title="Unosquare.FFME.Avalonia.Sample"
+    Width="800"
+    Height="600"
+    x:DataType="vm:MainViewModel">
+    <Grid ColumnDefinitions="1*,1*">
+        <Button Grid.Column="0" Command="{Binding SwitchCommand}">Switch</Button>
+        <Grid Grid.Column="1" RowDefinitions="1*,1*">
+            <ffme:MediaElement Name="MediaPlayer1" Grid.Row="0" LoadedBehavior="Play" LoopingBehavior="Play" IsVisible="{Binding VideoVisible}" />
+            <ffme:MediaElement Name="MediaPlayer2" Grid.Row="1" />
+        </Grid>
+    </Grid>
+</Window>

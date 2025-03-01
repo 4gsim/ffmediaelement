@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using System;
 using System.Linq;
-using FFME.Avalonia.Sample.Views;
+using Unosquare.FFME.Avalonia.Sample.ViewModels;
+using Unosquare.FFME.Avalonia.Sample.Views;
 
-namespace FFME.Avalonia.Sample;
+namespace Unosquare.FFME.Avalonia.Sample;
 
 public partial class App : Application
 {
@@ -22,7 +22,10 @@ public partial class App : Application
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
             // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
-            desktop.MainWindow = new Main();
+            desktop.MainWindow = new Main()
+            {
+                DataContext = new MainViewModel()
+            };
         }
 
         base.OnFrameworkInitializationCompleted();

@@ -1,7 +1,7 @@
 using Avalonia;
 using System;
 
-namespace FFME.Avalonia.Sample;
+namespace Unosquare.FFME.Avalonia.Sample;
 
 sealed class Program
 {
