@@ -6,7 +6,7 @@
 
     <!-- NuGet Package Properties -->
     <PackageId>FFME.Avalonia</PackageId>
-    <Version>5.1.2.3</Version>
+    <Version>5.1.2.3-beta-1</Version>
     <Authors>Mario Di Vece, Calin Cerchez, and Contributors to the FFME project</Authors>
     <Description>FFME is an advanced Avalonia MediaElement alternative. While the standard MediaElement uses DirectX (DirectShow) for media playback, FFME uses FFmpeg to read and decode audio and video.</Description>
     <Copyright>Unosquare SA de CV, Mario Di Vece, and Contributors, (C) 2015-2024</Copyright>
