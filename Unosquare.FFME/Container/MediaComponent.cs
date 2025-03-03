@@ -164,7 +164,7 @@
                 // decoding is very fast in most scenarios.
                 var codecOptions = Container.MediaOptions.DecoderParams.GetStreamCodecOptions(Stream->index);
 
-                codecOptions.SetCopyOpaque();
+                //codecOptions.SetCopyOpaque();
 
                 // Enable Hardware acceleration if requested
                 (this as VideoComponent)?.AttachHardwareDevice(container.MediaOptions.VideoHardwareDevices);

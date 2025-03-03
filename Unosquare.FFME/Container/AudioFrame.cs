@@ -37,8 +37,8 @@ internal sealed unsafe class AudioFrame : MediaFrame
             TimeSpan.FromTicks(frame->pts.ToTimeSpan(StreamTimeBase).Ticks);
 
         // Compute the audio frame duration
-        Duration = frame->duration > 0 ?
-            frame->duration.ToTimeSpan(StreamTimeBase) :
+        Duration = frame->pkt_duration > 0 ?
+            frame->pkt_duration.ToTimeSpan(StreamTimeBase) :
             TimeSpan.FromTicks(Convert.ToInt64(TimeSpan.TicksPerMillisecond * 1000d * frame->nb_samples / frame->sample_rate));
 
         // Compute the audio frame end time

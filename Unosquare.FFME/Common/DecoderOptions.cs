@@ -120,7 +120,7 @@
             }
 
             var dict = new FFDictionary(result);
-            dict.SetCopyOpaque();
+            // dict.SetCopyOpaque();
             return dict;
         }
 
